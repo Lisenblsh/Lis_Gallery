@@ -5,18 +5,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.lis.data.AlbumRepositoryImpl
-import com.lis.domain.pagingSources.AlbumPagingSource
-import com.lis.domain.models.FolderModel
+import com.lis.domain.models.FolderItemsModel
+import com.lis.domain.pagingSources.ItemsInAlbumPagingSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
-class AlbumViewModel(private val repository: AlbumRepositoryImpl): ViewModel() {
-    val pagingAlbumList: Flow<PagingData<FolderModel>>
+class ItemsInAlbumViewModel(private val repository: AlbumRepositoryImpl):ViewModel() {
+    var pagingItemsList: Flow<PagingData<FolderItemsModel>> = emptyFlow()
 
-    init {
-        pagingAlbumList = getAlbumList()
-    }
-
-    private fun getAlbumList(): Flow<PagingData<FolderModel>> {
+    fun getItemsList(folderId: Long?): Flow<PagingData<FolderItemsModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -24,13 +21,12 @@ class AlbumViewModel(private val repository: AlbumRepositoryImpl): ViewModel() {
                 initialLoadSize = INITIAL_SIZE
             )
         ){
-            AlbumPagingSource(repository)
+            ItemsInAlbumPagingSource(repository,folderId)
         }.flow
-
     }
 
     companion object {
-        const val PAGE_SIZE = 10
-        const val INITIAL_SIZE = 20
+        const val PAGE_SIZE = 50
+        const val INITIAL_SIZE = PAGE_SIZE
     }
 }

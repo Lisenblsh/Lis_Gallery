@@ -9,6 +9,7 @@
     android:layout_margin="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
@@ -55,6 +56,7 @@
             android:id="@+id/view_folder"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:clickable="true"
             android:theme="@style/Base.ImageView.Lis"
             android:src="@drawable/icon_view_folder"
             app:layout_constraintTop_toTopOf="parent"

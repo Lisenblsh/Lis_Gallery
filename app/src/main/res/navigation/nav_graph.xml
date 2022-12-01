@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/firstStartFragment2">
-
+    app:startDestination="@id/selectFoldersFragment">
     <fragment
-        android:id="@+id/firstStartFragment2"
-        android:name="com.lis.lisgalery.FirstStartFragment"
-        android:label="FirstStartFragment" />
+        android:id="@+id/selectFoldersFragment"
+        android:name="com.lis.lisgalery.SelectFoldersFragment"
+        android:label="SelectFoldersFragment" >
+        <action
+            android:id="@+id/action_selectFoldersFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.lis.lisgalery.AlbumFragment"
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album" >
+        <argument
+            android:name="folderId"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -1,7 +1,9 @@
-package com.lis.domain.models
+package com.lis.domain.pagingSources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.lis.domain.AlbumRepository
+import com.lis.domain.models.FolderModel
 
 class AlbumPagingSource(private val repository: AlbumRepository) :
     PagingSource<Int, FolderModel>() {

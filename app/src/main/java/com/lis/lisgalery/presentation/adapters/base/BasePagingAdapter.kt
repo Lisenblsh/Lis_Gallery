@@ -36,8 +36,8 @@ abstract class BasePagingAdapter<T : Any,VH : BaseAdapter.BaseViewHolder>(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(id: Int?)
-        fun onButtonOnItemClick(id: Int?)
+        fun onItemClick(id: Long?)
+        fun onButtonOnItemClick(id: Long?)
     }
 
     lateinit var clickListener: OnItemClickListener
