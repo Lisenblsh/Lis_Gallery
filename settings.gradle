@@ -1,0 +1,27 @@
+pluginManagement {
+    def kotlinVersion="1.6.20"
+    def kspVersion="1.6.20-1.0.4"
+    plugins {
+        id 'com.google.devtools.ksp' version "$kspVersion" apply false
+        id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion" apply false
+        id 'org.jetbrains.kotlin.android' version '1.7.10'
+        id 'com.android.library' version '7.3.1'
+    }
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Lis Galery"
+include ':app'
+include ':core:ui'
+include ':domain'
+include ':data'

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.ImageView.Lis" parent="Widget.AppCompat.TextView">
+        <item name="android:tint">?attr/colorOnPrimary</item>
+    </style>
+</resources>
