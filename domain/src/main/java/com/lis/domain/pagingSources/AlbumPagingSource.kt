@@ -1,5 +1,6 @@
 package com.lis.domain.pagingSources
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.lis.domain.AlbumRepository
@@ -28,7 +29,7 @@ class AlbumPagingSource(private val repository: AlbumRepository) :
         return LoadResult.Page(list, prevKey,nextKey)
     }
 
-    private fun getAlbums(count: Int, offset: Int): List<FolderModel> {
+    private suspend fun getAlbums(count: Int, offset: Int): List<FolderModel> {
         return repository.getAlbums(count, offset)
     }
 }

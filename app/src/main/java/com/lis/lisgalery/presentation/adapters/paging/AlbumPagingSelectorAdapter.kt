@@ -14,6 +14,7 @@ import com.google.android.material.R.attr
 import com.lis.lisgalery.R
 import com.lis.lisgalery.databinding.AlbumCheckItemBinding
 import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
+import kotlinx.coroutines.coroutineScope
 import java.io.FileNotFoundException
 
 class AlbumPagingSelectorAdapter(idLayout: Int) :
@@ -45,7 +46,8 @@ class AlbumPagingSelectorAdapter(idLayout: Int) :
 
         override fun showData(item: Any) {
             if (item is FolderModel) {
-                setImage(item.uri)
+                ImageFun().setThumbnail(binding.folderImage,item.path)
+
                 binding.itemsCount.text = item.count.toString()
                 binding.folderName.text = item.name
                 if(item.isSelected){
@@ -70,36 +72,6 @@ class AlbumPagingSelectorAdapter(idLayout: Int) :
                 }
             }
         }
-
-        private fun setImage(uri: Uri?) {
-            if (uri != null) {
-                try {
-                    val thumbnail: Bitmap = getThumbnail(uri)
-                    ImageFun().setBitmapImage(binding.folderImage, thumbnail)
-                } catch (_: FileNotFoundException) {
-                    ImageFun().setImage(binding.folderImage, R.drawable.test_image)
-                }
-            }
-        }
-
-        private fun getThumbnail(uri: Uri): Bitmap {
-            val id = uri.lastPathSegment!!.split(":")[0].toLong()
-
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                binding.root.context.contentResolver.loadThumbnail(
-                    uri, Size(640, 640), null
-                )
-            } else {
-                MediaStore.Images.Thumbnails.getThumbnail(
-                    binding.root.context.contentResolver,
-                    id,
-                    MediaStore.Images.Thumbnails.MINI_KIND,
-                    null
-                )
-            }
-        }
-
-
     }
 
     override fun createViewHolder(itemView: View): AlbumPagingViewHolder {

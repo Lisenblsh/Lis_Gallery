@@ -1,6 +1,7 @@
 package com.lis.lisgalery.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -30,7 +31,7 @@ class AlbumViewModel(private val repository: AlbumRepositoryImpl): ViewModel() {
     }
 
     companion object {
-        const val PAGE_SIZE = 10
-        const val INITIAL_SIZE = 20
+        const val PAGE_SIZE = 20
+        const val INITIAL_SIZE = PAGE_SIZE
     }
 }

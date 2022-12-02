@@ -64,7 +64,6 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-core:$koin_version"
 
-
     //Paging 3
     def pagingVersion = "3.1.1"
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"

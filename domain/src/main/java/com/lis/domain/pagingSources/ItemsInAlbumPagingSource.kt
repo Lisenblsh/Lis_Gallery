@@ -29,7 +29,7 @@ class ItemsInAlbumPagingSource(private val repository: AlbumRepository, private 
         return LoadResult.Page(list, prevKey,nextKey)
     }
 
-    private fun getItemsInAlbum(count: Int, offset: Int): List<FolderItemsModel> {
+    private suspend fun getItemsInAlbum(count: Int, offset: Int): List<FolderItemsModel> {
         return repository.getItemsInAlbum(folderId,count, offset)
     }
 }
