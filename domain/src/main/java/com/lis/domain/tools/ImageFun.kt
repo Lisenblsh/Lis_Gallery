@@ -31,7 +31,7 @@ class ImageFun {
     }
 
     fun setThumbnail(imageView: ImageView, image: Any?){
-        Glide.with(imageView).load(image).apply(RequestOptions().override(250, 250)).into(imageView);
+        Glide.with(imageView).load(image).apply(RequestOptions().override(150, 150)).into(imageView);
 
     }
 }
