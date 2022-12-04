@@ -8,41 +8,17 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
+import com.lis.lisgalery.databinding.ActivityFirstStartBinding
 
 class FirstStartActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityFirstStartBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_first_start)
-
-        checkPermission()
+        binding = ActivityFirstStartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
-    private fun checkPermission() {
-        if (isPermissionGranted()) {
-            ActivityCompat.requestPermissions(
-                this,
-                listOf(Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),
-                REQUEST_PERMISSION
-            )
-        }
-    }
-
-    private fun isPermissionGranted(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            !Environment.isExternalStorageManager()
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-        } else {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        }
-
-    }
-
-    companion object {
-        private const val REQUEST_PERMISSION = 100
-
-    }
 }

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/selectFoldersFragment">
+    app:startDestination="@id/checkPermissionFragment">
     <fragment
         android:id="@+id/selectFoldersFragment"
-        android:name="com.lis.lisgalery.SelectFoldersFragment"
+        android:name="com.lis.lisgalery.presentation.fragments.SelectFoldersFragment"
         android:label="SelectFoldersFragment" >
         <action
             android:id="@+id/action_selectFoldersFragment_to_albumFragment"
@@ -14,11 +14,24 @@
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
-        android:name="com.lis.lisgalery.AlbumFragment"
+        android:name="com.lis.lisgalery.presentation.fragments.AlbumFragment"
         android:label="fragment_album"
         tools:layout="@layout/fragment_album" >
         <argument
             android:name="folderId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/checkPermissionFragment"
+        android:name="com.lis.lisgalery.CheckPermissionFragment"
+        android:label="fragment_check_permission"
+        tools:layout="@layout/fragment_check_permission" >
+        <action
+            android:id="@+id/action_checkPermissionFragment_to_selectFoldersFragment"
+            app:destination="@id/selectFoldersFragment" />
+        <action
+            android:id="@+id/action_checkPermissionFragment_to_mobile_navigation"
+            app:destination="@id/mobile_navigation" />
+    </fragment>
+    <include app:graph="@navigation/mobile_navigation" />
 </navigation>
