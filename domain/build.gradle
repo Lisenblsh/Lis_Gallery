@@ -53,4 +53,9 @@ dependencies {
     //coil
     def coil_ver = "2.2.2"
     implementation "io.coil-kt:coil:$coil_ver"
+
+    //jCIFS
+    def jcifs_ver = "2.1.8"
+    implementation "eu.agno3.jcifs:jcifs-ng:$jcifs_ver"
+
 }

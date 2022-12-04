@@ -15,8 +15,6 @@ class FirstStartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_first_start)
 
         checkPermission()
-
-
     }
 
     private fun checkPermission() {

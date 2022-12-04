@@ -1,6 +1,7 @@
 package com.lis.lisgalery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,18 @@ import com.lis.lisgalery.databinding.FragmentSelectFoldersBinding
 import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
 import com.lis.lisgalery.presentation.adapters.paging.AlbumPagingSelectorAdapter
 import com.lis.lisgalery.presentation.viewModels.AlbumViewModel
+import jcifs.CIFSContext
+import jcifs.Configuration
+import jcifs.config.PropertyConfiguration
+import jcifs.context.BaseContext
+import jcifs.smb.SmbFile
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+
 
 class SelectFoldersFragment : Fragment() {
 

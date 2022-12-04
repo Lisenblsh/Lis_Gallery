@@ -72,4 +72,13 @@ dependencies {
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //jCIFS
+    def jcifs_ver = "2.1.8"
+    implementation "eu.agno3.jcifs:jcifs-ng:$jcifs_ver"
+    implementation 'org.slf4j:slf4j-jdk14:2.0.5'
+
+    implementation 'com.hierynomus:smbj:0.0.3'
+
+
 }
