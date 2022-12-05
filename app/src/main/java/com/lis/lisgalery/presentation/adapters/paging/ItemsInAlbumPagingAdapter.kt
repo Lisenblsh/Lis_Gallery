@@ -29,7 +29,7 @@ class ItemsInAlbumPagingAdapter(idLayout: Int):
 BasePagingAdapter<FolderItemsModel,ItemsInAlbumPagingAdapter.ItemsInAlbumViewHolder>(idLayout, ITEMS_COMPARATOR){
 
     inner class ItemsInAlbumViewHolder(private val binding: AlbumItemBinding):
-            BasePagingAdapter.BasePagingViewHolder(binding.root) {
+            BasePagingViewHolder(binding.root) {
         override fun bind(item: Any?) {
             if(item != null){
                 showData(item)

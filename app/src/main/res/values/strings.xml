@@ -5,4 +5,7 @@
     <string name="title_notifications" translatable="false">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="get_permission_storage">The app requires permission to access photos and multimedia</string>
+    <string name="give_permission">Give permission</string>
+    <string name="start_to_bottom">Start to bottom</string>
 </resources>

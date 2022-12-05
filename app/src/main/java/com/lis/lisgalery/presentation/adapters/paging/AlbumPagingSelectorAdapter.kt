@@ -1,21 +1,13 @@
 package com.lis.lisgalery.presentation.adapters.paging
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
-import android.util.Size
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil
+import com.google.android.material.R.attr
 import com.lis.domain.models.FolderModel
 import com.lis.domain.tools.ImageFun
-import com.google.android.material.R.attr
-import com.lis.lisgalery.R
 import com.lis.lisgalery.databinding.AlbumCheckItemBinding
 import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
-import kotlinx.coroutines.coroutineScope
-import java.io.FileNotFoundException
 
 class AlbumPagingSelectorAdapter(idLayout: Int) :
     BasePagingAdapter<FolderModel, AlbumPagingSelectorAdapter.AlbumPagingViewHolder>(

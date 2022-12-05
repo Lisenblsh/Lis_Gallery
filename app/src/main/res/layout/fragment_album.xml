@@ -1,13 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.fragments.AlbumFragment">
+
+    <androidx.appcompat.widget.ActionMenuView
+        android:id="@+id/album_menu"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#00000000"
+        android:foregroundTint="?attr/colorOnPrimary"
+        android:elevation="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/menu_card"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardElevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/menu_card"
+        app:layout_constraintTop_toTopOf="@id/menu_card"
+        app:layout_constraintBottom_toBottomOf="@id/menu_card"
+        android:orientation="horizontal"
+        android:elevation="10dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow"
+            android:layout_marginHorizontal="10dp"
+            app:tint="?attr/colorOnPrimary"/>
+        <TextView
+            android:id="@+id/folder_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            tools:text="Screenshots"
+            android:textSize="17sp"
+            android:textColor="?attr/colorOnPrimary"/>
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/items_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true"
+        app:layout_constraintTop_toBottomOf="@id/menu_card"
+        app:layout_constraintBottom_toTopOf="@id/footer_text"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/footer_text"
+        android:textAlignment="center"
+        android:text="2 ajnj"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

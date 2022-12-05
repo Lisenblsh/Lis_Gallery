@@ -11,4 +11,8 @@ class AlbumRepositoryImpl(private val gallery: Gallery) : AlbumRepository {
     override suspend fun getItemsInAlbum(folderId: Long?, count: Int, offset: Int): List<FolderItemsModel> {
         return gallery.getItemsFromAlbum(folderId, count, offset)
     }
+
+    override suspend fun getNameFolderById(folderId: Long?): String {
+        return gallery.nameFolder
+    }
 }

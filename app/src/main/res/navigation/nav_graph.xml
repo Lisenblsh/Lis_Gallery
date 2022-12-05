@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/checkPermissionFragment"
-        android:name="com.lis.lisgalery.CheckPermissionFragment"
+        android:name="com.lis.lisgalery.presentation.fragments.CheckPermissionFragment"
         android:label="fragment_check_permission"
         tools:layout="@layout/fragment_check_permission" >
         <action

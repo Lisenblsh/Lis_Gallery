@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Lis Gallery</string>
+    <string name="get_permission_storage">Для работы приложения нужно разрешение для доступа к фото и мультимедиа</string>
+    <string name="give_permission">Выдать разрешение</string>
+    <string name="start_to_bottom">Начало снизу</string>
 </resources>

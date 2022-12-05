@@ -140,11 +140,12 @@ class Gallery(private val context: Context) {
 
     private var folderId: Long? = null
 
+    var nameFolder: String = ""
+        private set
+
     fun getItemsFromAlbum(folderId: Long? = null, count: Int, offset: Int): List<FolderItemsModel> {
-        if (itemsList.isEmpty() || folderId != this.folderId) {
-            itemsList = selectItemFromFolder(folderId)
-            this.folderId = folderId
-        }
+        itemsList = selectItemFromFolder(folderId)
+        this.folderId = folderId
         if (itemsList.size < offset) {
             return emptyList()
         }
@@ -163,6 +164,36 @@ class Gallery(private val context: Context) {
         items.addAll(getVideos(folderId))
         Log.e("timer", "${System.currentTimeMillis() - time}")
         return items.sortedByDescending { it.dateModified }.toList()
+    }
+
+    private fun getImages(folderId: Long?): List<FolderItemsModel> {
+        val imageQuery = getQuery(
+            collection = imageCollection(),
+            projection = imageProjection,
+            bucketId = MediaStore.Images.Media.BUCKET_ID,
+            folderId = folderId,
+            sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+        )
+
+        imageQuery?.use { cursor ->
+            val imageIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            val imageDateModified =
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
+            val imagePathColumn =
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            val bucketNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+            cursor.moveToFirst()
+            nameFolder = cursor.getString(bucketNameColumn)?: context.resources.getString(R.string.root_folder)
+            cursor.moveToPrevious()
+
+            return getListFromCursor(
+                cursor,
+                imageIdColumn,
+                imageDateModified,
+                imagePathColumn
+            )
+        }
+        return emptyList()
     }
 
     private fun getVideos(folderId: Long?): List<FolderItemsModel> {
@@ -188,32 +219,6 @@ class Gallery(private val context: Context) {
                 videoPathColumn,
                 videoDurationColumn,
                 isVideo = true
-            )
-        }
-        return emptyList()
-    }
-
-    private fun getImages(folderId: Long?): List<FolderItemsModel> {
-        val imageQuery = getQuery(
-            collection = imageCollection(),
-            projection = imageProjection,
-            bucketId = MediaStore.Images.Media.BUCKET_ID,
-            folderId = folderId,
-            sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        )
-
-        imageQuery?.use { cursor ->
-            val imageIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            val imageDateModified =
-                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
-            val imagePathColumn =
-                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-
-            return getListFromCursor(
-                cursor,
-                imageIdColumn,
-                imageDateModified,
-                imagePathColumn
             )
         }
         return emptyList()
@@ -267,6 +272,10 @@ class Gallery(private val context: Context) {
         return contentResolver.query(
             collection, projection, selection, selectionArgs, sortOrder
         )
+    }
+
+    fun getNameFOlderById(folderId: Long?): String {
+        TODO("Not yet implemented")
     }
 
     companion object {
