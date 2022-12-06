@@ -274,10 +274,6 @@ class Gallery(private val context: Context) {
         )
     }
 
-    fun getNameFOlderById(folderId: Long?): String {
-        TODO("Not yet implemented")
-    }
-
     companion object {
         private fun getSelection(folderId: Long?, bucketId: String) =
             if (folderId == null || folderId == -1L) {

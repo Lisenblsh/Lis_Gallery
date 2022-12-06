@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
             if (isGranted) {
                 checkFirstStart()
             } else {
+
+                //TODO("Надо помнять текст тут
+                // да и вообще разобраться с этим")
                 val alertDialogBuilder = AlertDialog.Builder(this)
                     .setTitle("Change Permissions in Settings")
                     .setMessage(
