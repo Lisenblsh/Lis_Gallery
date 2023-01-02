@@ -13,9 +13,11 @@ pluginManagement {
         mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
     }
@@ -25,3 +27,4 @@ include ':app'
 include ':core:ui'
 include ':domain'
 include ':data'
+include ':lib:remoteLib'

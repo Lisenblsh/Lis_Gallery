@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lis.lisgalery.R
 import com.lis.lisgalery.databinding.FragmentAlbumBinding
+import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
 import com.lis.lisgalery.presentation.adapters.paging.ItemsInAlbumPagingAdapter
 import com.lis.lisgalery.presentation.viewModels.ItemsInAlbumViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -81,6 +83,32 @@ class AlbumFragment : Fragment() {
 
     private fun FragmentAlbumBinding.viewList() {
         gridLayoutManager = GridLayoutManager(requireContext(), 4, RecyclerView.VERTICAL, false)
+        photoAdapter.setOnItemClickListener(object : BasePagingAdapter.OnItemClickListener {
+            override fun onFolderClick(id: Long?) {
+
+            }
+
+            override fun onImageClick(path: String?) {
+                if (path != null) {
+                    val directions =
+                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(path,false)
+                    NavHostFragment.findNavController(this@AlbumFragment).navigate(directions)
+
+                }
+            }
+
+            override fun onVideoClick(path: String?) {
+                if (path != null) {
+                    val directions =
+                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(path,true)
+                    NavHostFragment.findNavController(this@AlbumFragment).navigate(directions)
+
+                }
+            }
+
+            override fun onButtonOnItemClick(id: Long?) {
+            }
+        })
         itemsList.adapter = photoAdapter
         itemsList.layoutManager = gridLayoutManager
 

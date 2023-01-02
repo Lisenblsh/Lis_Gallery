@@ -59,7 +59,7 @@ class AlbumPagingSelectorAdapter(idLayout: Int) :
                         selectedFolders.remove(item.id)
                     }
 
-                    clickListener.onItemClick(item.id)
+                    clickListener.onFolderClick(item.id)
                     notifyItemChanged(bindingAdapterPosition, itemView)
                 }
             }

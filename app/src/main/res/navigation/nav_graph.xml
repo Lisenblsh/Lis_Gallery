@@ -20,6 +20,9 @@
         <argument
             android:name="folderId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_albumFragment_to_openItemFragment"
+            app:destination="@id/openItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkPermissionFragment"
@@ -34,4 +37,16 @@
             app:destination="@id/mobile_navigation" />
     </fragment>
     <include app:graph="@navigation/mobile_navigation" />
+    <fragment
+        android:id="@+id/openItemFragment"
+        android:name="com.lis.lisgalery.presentation.fragments.OpenItemFragment"
+        android:label="fragment_open_item"
+        tools:layout="@layout/fragment_open_item" >
+        <argument
+            android:name="path"
+            app:argType="string" />
+        <argument
+            android:name="isVideo"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

@@ -48,7 +48,14 @@ class SelectFoldersFragment : Fragment() {
         }
         val adapter = AlbumPagingSelectorAdapter(R.layout.album_check_item)
         adapter.setOnItemClickListener(object : BasePagingAdapter.OnItemClickListener{
-            override fun onItemClick(id: Long?) {}
+            override fun onFolderClick(id: Long?) {}
+            override fun onImageClick(path: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onVideoClick(path: String?) {
+                TODO("Not yet implemented")
+            }
 
             override fun onButtonOnItemClick(id: Long?) {
                 if (id!=null){

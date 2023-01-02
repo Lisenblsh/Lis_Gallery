@@ -1,29 +1,13 @@
 package com.lis.lisgalery.presentation.adapters.paging
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
-import android.util.Size
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import com.lis.domain.models.FolderItemsModel
-import com.lis.domain.models.FolderModel
 import com.lis.domain.tools.ImageFun
 import com.lis.domain.tools.getStringDurationsFromLong
-import com.lis.lisgalery.R
-import com.lis.lisgalery.databinding.AlbumCheckItemBinding
 import com.lis.lisgalery.databinding.AlbumItemBinding
 import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
-import java.io.FileNotFoundException
-import java.text.MessageFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class ItemsInAlbumPagingAdapter(idLayout: Int):
 BasePagingAdapter<FolderItemsModel,ItemsInAlbumPagingAdapter.ItemsInAlbumViewHolder>(idLayout, ITEMS_COMPARATOR){
@@ -42,9 +26,16 @@ BasePagingAdapter<FolderItemsModel,ItemsInAlbumPagingAdapter.ItemsInAlbumViewHol
                 if(item.isVideo){
                     binding.isVideoCard.isVisible = true
                     binding.videoDuration.text = item.duration.getStringDurationsFromLong()
+                    itemView.setOnClickListener {
+                        clickListener.onVideoClick(item.path)
+                    }
                 } else {
                     binding.isVideoCard.isVisible = false
+                    itemView.setOnClickListener {
+                        clickListener.onImageClick(item.path)
+                    }
                 }
+
             }
         }
 

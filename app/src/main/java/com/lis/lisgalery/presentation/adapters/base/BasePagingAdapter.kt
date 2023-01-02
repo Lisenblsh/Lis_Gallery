@@ -36,7 +36,9 @@ abstract class BasePagingAdapter<T : Any,VH : BaseAdapter.BaseViewHolder>(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(id: Long?)
+        fun onFolderClick(id: Long?)
+        fun onImageClick(path: String?)
+        fun onVideoClick(path: String?)
         fun onButtonOnItemClick(id: Long?)
     }
 
