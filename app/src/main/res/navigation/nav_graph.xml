@@ -43,10 +43,7 @@
         android:label="fragment_open_item"
         tools:layout="@layout/fragment_open_item" >
         <argument
-            android:name="path"
-            app:argType="string" />
-        <argument
-            android:name="isVideo"
-            app:argType="boolean" />
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>

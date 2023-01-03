@@ -18,8 +18,7 @@ class ItemsInAlbumViewModel(private val repository: AlbumRepositoryImpl) : ViewM
     val nameFolder = MutableLiveData<String>()
 
     fun getItemsList(folderId: Long?): Flow<PagingData<FolderItemsModel>> {
-
-        return Pager(
+        pagingItemsList = Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = true,
@@ -30,6 +29,7 @@ class ItemsInAlbumViewModel(private val repository: AlbumRepositoryImpl) : ViewM
             viewModelScope.launch { nameFolder.value = pagingSource.getNameFolder() }
             pagingSource
         }.flow
+        return pagingItemsList
     }
 
     companion object {

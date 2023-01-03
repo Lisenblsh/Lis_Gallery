@@ -8,6 +8,7 @@ data class FolderItemsModel(
     val path: String,
     var dateModified: Long,
     var isSelected: Boolean = false,
+    var isFavourite: Boolean = false,
     val isVideo: Boolean = false,
     val duration: Long = 0
 )

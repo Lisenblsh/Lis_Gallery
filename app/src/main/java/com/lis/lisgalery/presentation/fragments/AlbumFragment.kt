@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.LoadState
@@ -20,13 +21,15 @@ import com.lis.lisgalery.presentation.adapters.paging.ItemsInAlbumPagingAdapter
 import com.lis.lisgalery.presentation.viewModels.ItemsInAlbumViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumFragment : Fragment() {
 
     private lateinit var binding: FragmentAlbumBinding
 
-    private val viewModel by viewModel<ItemsInAlbumViewModel>()
+    private val viewModel by sharedViewModel<ItemsInAlbumViewModel>()
 
     private val photoAdapter = ItemsInAlbumPagingAdapter(R.layout.album_item)
 
@@ -36,9 +39,11 @@ class AlbumFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAlbumBinding.inflate(inflater, container, false)
-        binding.viewList()
-        binding.bindMenu()
+        if (!this::binding.isInitialized){
+            binding = FragmentAlbumBinding.inflate(inflater, container, false)
+            binding.viewList()
+            binding.bindMenu()
+        }
         return binding.root
     }
 
@@ -88,22 +93,10 @@ class AlbumFragment : Fragment() {
 
             }
 
-            override fun onImageClick(path: String?) {
-                if (path != null) {
+            override fun onItemClick(position: Int) {
                     val directions =
-                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(path,false)
+                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(position)
                     NavHostFragment.findNavController(this@AlbumFragment).navigate(directions)
-
-                }
-            }
-
-            override fun onVideoClick(path: String?) {
-                if (path != null) {
-                    val directions =
-                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(path,true)
-                    NavHostFragment.findNavController(this@AlbumFragment).navigate(directions)
-
-                }
             }
 
             override fun onButtonOnItemClick(id: Long?) {
@@ -114,7 +107,7 @@ class AlbumFragment : Fragment() {
 
         lifecycleScope.launch {
             val args = AlbumFragmentArgs.fromBundle(requireArguments())
-            viewModel.getItemsList(args.folderId).collectLatest(photoAdapter::submitData)
+            viewModel.getItemsList(args.folderId).collect(photoAdapter::submitData)
         }
     }
 }

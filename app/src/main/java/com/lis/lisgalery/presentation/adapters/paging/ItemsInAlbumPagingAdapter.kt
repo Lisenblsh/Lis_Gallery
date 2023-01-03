@@ -26,14 +26,11 @@ BasePagingAdapter<FolderItemsModel,ItemsInAlbumPagingAdapter.ItemsInAlbumViewHol
                 if(item.isVideo){
                     binding.isVideoCard.isVisible = true
                     binding.videoDuration.text = item.duration.getStringDurationsFromLong()
-                    itemView.setOnClickListener {
-                        clickListener.onVideoClick(item.path)
-                    }
                 } else {
                     binding.isVideoCard.isVisible = false
-                    itemView.setOnClickListener {
-                        clickListener.onImageClick(item.path)
-                    }
+                }
+                itemView.setOnClickListener {
+                    clickListener.onItemClick(bindingAdapterPosition)
                 }
 
             }

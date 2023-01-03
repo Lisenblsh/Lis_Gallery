@@ -17,11 +17,15 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lis.lisgalery.databinding.ActivityMainBinding
+import com.lis.lisgalery.presentation.viewModels.ItemsInAlbumViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel by viewModel<ItemsInAlbumViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
