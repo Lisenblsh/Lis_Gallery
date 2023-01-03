@@ -7,16 +7,28 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.MediaSource
 import com.lis.domain.models.FolderItemsModel
 import com.lis.domain.tools.ImageFun
 import com.lis.lisgalery.databinding.ImageShowItemBinding
 import com.lis.lisgalery.databinding.VideoShowItemBinding
+import com.lis.lisgalery.presentation.adapters.ExoPlayerItem
 import com.lis.lisgalery.presentation.adapters.base.BaseAdapter
 
 class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val videoLayout: Int) :
     PagingDataAdapter<FolderItemsModel, ViewItemsInAlbumPagingAdapter.ViewItemsInAlbumPagingViewHolder>(
         ITEMS_COMPARATOR
     ) {
+
+    interface OnClickListener {
+        fun onClick()
+    }
+
+    lateinit var clickListener: OnClickListener
+
+    fun setOnClickListener (listener: OnClickListener){
+        this.clickListener = listener
+    }
 
     override fun onBindViewHolder(holder: ViewItemsInAlbumPagingViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -47,6 +59,10 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
 
     inner class ViewItemsInAlbumPagingViewHolder(itemView: View) :
         BaseAdapter.BaseViewHolder(itemView) {
+
+        private lateinit var exoPlayer: ExoPlayer
+        private lateinit var mediaSource: MediaSource
+
         override fun bind(item: Any?) {
             if (item != null) {
                 showData(item)
@@ -62,6 +78,9 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
                     val binding = ImageShowItemBinding.bind(itemView)
                     showImage(binding, item)
                 }
+                itemView.setOnClickListener{
+                    clickListener.onClick()
+                }
             }
         }
 
@@ -70,13 +89,18 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
         }
 
         private fun showVideo(binding: VideoShowItemBinding, item: FolderItemsModel) {
-            val player: ExoPlayer = ExoPlayer.Builder(binding.root.context).build()
-            binding.videoPlayer.player = player
+            exoPlayer = ExoPlayer.Builder(binding.root.context).build()
+            binding.videoPlayer.player = exoPlayer
+            exoPlayer.seekTo(0)
             val media = MediaItem.fromUri(item.path)
-            player.addMediaItem(media)
-            player.prepare()
+            exoPlayer.addMediaItem(media)
+            exoPlayer.prepare()
+
+            exoPlayerItems.add(ExoPlayerItem(exoPlayer, absoluteAdapterPosition))
         }
     }
+
+    val exoPlayerItems = arrayListOf<ExoPlayerItem>()
 
     companion object {
         private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<FolderItemsModel>() {

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.lis.data.AlbumRepositoryImpl
 import com.lis.domain.models.FolderItemsModel
 import com.lis.domain.pagingSources.ItemsInAlbumPagingSource
@@ -21,14 +22,14 @@ class ItemsInAlbumViewModel(private val repository: AlbumRepositoryImpl) : ViewM
         pagingItemsList = Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                enablePlaceholders = true,
+                enablePlaceholders = false,
                 initialLoadSize = INITIAL_SIZE
             )
         ) {
             val pagingSource = ItemsInAlbumPagingSource(repository, folderId)
             viewModelScope.launch { nameFolder.value = pagingSource.getNameFolder() }
             pagingSource
-        }.flow
+        }.flow.cachedIn(viewModelScope)
         return pagingItemsList
     }
 

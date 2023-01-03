@@ -2,6 +2,7 @@ package com.lis.data
 
 import android.content.Context
 import android.database.Cursor
+import android.database.CursorIndexOutOfBoundsException
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -182,9 +183,8 @@ class Gallery(private val context: Context) {
             val imagePathColumn =
                 cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             val bucketNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-            cursor.moveToFirst()
-            nameFolder = cursor.getString(bucketNameColumn)?: context.resources.getString(R.string.root_folder)
-            cursor.moveToPrevious()
+
+            cursor.getFolderNameFromCursor(bucketNameColumn)
 
             return getListFromCursor(
                 cursor,
@@ -194,6 +194,17 @@ class Gallery(private val context: Context) {
             )
         }
         return emptyList()
+    }
+
+    private fun Cursor.getFolderNameFromCursor(bucketNameColumn: Int) {
+        try {
+            moveToFirst()
+            nameFolder =
+                this.getString(bucketNameColumn) ?: context.resources.getString(R.string.root_folder)
+            moveToPrevious()
+        }catch (e: CursorIndexOutOfBoundsException){
+            return
+        }
     }
 
     private fun getVideos(folderId: Long?): List<FolderItemsModel> {
@@ -211,6 +222,9 @@ class Gallery(private val context: Context) {
                 cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED)
             val videoDurationColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)
             val videoPathColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
+            val bucketNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
+
+            cursor.getFolderNameFromCursor(bucketNameColumn)
 
             return getListFromCursor(
                 cursor,
