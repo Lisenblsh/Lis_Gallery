@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class ItemsInAlbumViewModel(private val repository: AlbumRepositoryImpl) : ViewModel() {
     var pagingItemsList: Flow<PagingData<FolderItemsModel>> = emptyFlow()
     val nameFolder = MutableLiveData<String>()
+    val position = MutableLiveData<Int>(0)
 
     fun getItemsList(folderId: Long?): Flow<PagingData<FolderItemsModel>> {
         pagingItemsList = Pager(

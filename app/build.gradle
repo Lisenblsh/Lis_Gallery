@@ -74,4 +74,11 @@ dependencies {
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
 
+    //
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+    implementation 'com.github.CodeBoy722:ViewPager2_Transformers:1.0.0'
+
+
+
 }

@@ -1,19 +1,22 @@
 package com.lis.lisgalery.presentation.fragments
 
-import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowMetrics
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lis.lisgalery.R
 import com.lis.lisgalery.databinding.FragmentAlbumBinding
 import com.lis.lisgalery.presentation.adapters.base.BasePagingAdapter
@@ -21,9 +24,7 @@ import com.lis.lisgalery.presentation.adapters.paging.ItemsInAlbumPagingAdapter
 import com.lis.lisgalery.presentation.viewModels.ItemsInAlbumViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumFragment : Fragment() {
 
@@ -44,6 +45,7 @@ class AlbumFragment : Fragment() {
             binding.viewList()
             binding.bindMenu()
         }
+
         return binding.root
     }
 
@@ -61,6 +63,14 @@ class AlbumFragment : Fragment() {
             }
         }
         photoAdapter.refresh()
+        viewModel.position.observe(viewLifecycleOwner){
+            Log.e("position", it.toString())
+            (binding.itemsList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(it,offsetForLayout)
+        }
+    }
+
+    companion object{
+        private val offsetForLayout = Resources.getSystem().displayMetrics.heightPixels/3
     }
 
     private fun FragmentAlbumBinding.bindMenu() {
@@ -88,14 +98,19 @@ class AlbumFragment : Fragment() {
 
     private fun FragmentAlbumBinding.viewList() {
         gridLayoutManager = GridLayoutManager(requireContext(), 4, RecyclerView.VERTICAL, false)
+
+
+        (itemsList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations  = false
+
         photoAdapter.setOnItemClickListener(object : BasePagingAdapter.OnItemClickListener {
             override fun onFolderClick(id: Long?) {
 
             }
 
             override fun onItemClick(position: Int) {
+                layoutPosition = position
                     val directions =
-                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment(position)
+                        AlbumFragmentDirections.actionAlbumFragmentToOpenItemFragment()
                     NavHostFragment.findNavController(this@AlbumFragment).navigate(directions)
             }
 
@@ -107,7 +122,21 @@ class AlbumFragment : Fragment() {
 
         lifecycleScope.launch {
             val args = AlbumFragmentArgs.fromBundle(requireArguments())
-            viewModel.getItemsList(args.folderId).collect(photoAdapter::submitData)
+            viewModel.getItemsList(args.folderId).collectLatest(photoAdapter::submitData)
         }
+    }
+
+    private var layoutPosition = 0
+
+    override fun onPause() {
+        viewModel.position.value = layoutPosition
+        viewModel.position.removeObservers(viewLifecycleOwner)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        viewModel.position.value = 0
+        super.onDestroy()
+
     }
 }

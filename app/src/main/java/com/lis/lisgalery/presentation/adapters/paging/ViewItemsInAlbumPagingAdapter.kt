@@ -1,13 +1,18 @@
 package com.lis.lisgalery.presentation.adapters.paging
 
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.lis.domain.models.FolderItemsModel
 import com.lis.domain.tools.ImageFun
 import com.lis.lisgalery.databinding.ImageShowItemBinding
@@ -20,18 +25,33 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
         ITEMS_COMPARATOR
     ) {
 
+    val itemInfo = MutableLiveData<FolderItemsModel>()
+
     interface OnClickListener {
         fun onClick()
     }
 
     lateinit var clickListener: OnClickListener
 
-    fun setOnClickListener (listener: OnClickListener){
+    fun setOnClickListener(listener: OnClickListener) {
         this.clickListener = listener
     }
 
     override fun onBindViewHolder(holder: ViewItemsInAlbumPagingViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun onBindViewHolder(
+        holder: ViewItemsInAlbumPagingViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isNotEmpty()){
+            when(payloads[0]){
+                1 -> holder.onUpdate(getItem(position))
+            }
+        }
+        onBindViewHolder(holder, position)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -61,7 +81,15 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
         BaseAdapter.BaseViewHolder(itemView) {
 
         private lateinit var exoPlayer: ExoPlayer
-        private lateinit var mediaSource: MediaSource
+
+        fun onUpdate(item: Any?){
+            val binding = ImageShowItemBinding.bind(itemView)
+            binding.imageView.setScale(1.0f, true)
+            if(item != null)
+                if(item is FolderItemsModel){
+                    itemInfo.value = item as FolderItemsModel
+            }
+        }
 
         override fun bind(item: Any?) {
             if (item != null) {
@@ -78,7 +106,7 @@ class ViewItemsInAlbumPagingAdapter(private val imageLayout: Int, private val vi
                     val binding = ImageShowItemBinding.bind(itemView)
                     showImage(binding, item)
                 }
-                itemView.setOnClickListener{
+                itemView.setOnClickListener {
                     clickListener.onClick()
                 }
             }

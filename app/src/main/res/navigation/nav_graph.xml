@@ -41,9 +41,5 @@
         android:id="@+id/openItemFragment"
         android:name="com.lis.lisgalery.presentation.fragments.OpenItemFragment"
         android:label="fragment_open_item"
-        tools:layout="@layout/fragment_open_item" >
-        <argument
-            android:name="position"
-            app:argType="integer" />
-    </fragment>
+        tools:layout="@layout/fragment_open_item" />
 </navigation>
